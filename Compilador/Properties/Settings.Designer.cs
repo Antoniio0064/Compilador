@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Prueba02.Properties
+namespace Compilador.Properties
 {
 
 

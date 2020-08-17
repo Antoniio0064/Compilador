@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Compilador.Transversal;
 
-namespace Prueba02
+namespace Compilador
 {
     public partial class Form1 : Form
     {
-        List<string> cadenas = new List<string>();
+        List<Linea> lineas = new List<Linea>();
+        int idEjecucion = 0;
 
         public Form1()
         {
@@ -37,58 +39,115 @@ namespace Prueba02
         {
             btnDirectorio.Enabled = esConsola;
             txtDirectorio.Enabled = esConsola;
-            txtFunte.ReadOnly = esConsola;
-            txtFunte.Text = string.Empty;
+            txtFuente.ReadOnly = esConsola;
+            txtFuente.Text = esConsola ? string.Empty : txtFuente.Text;
             txtDestino.Text = string.Empty;
         }
 
         private void btnDirectorio_Click(object sender, EventArgs e)
         {
+            BuscarArchivoMostrarRuta();
+        }
+
+        private void BuscarArchivoMostrarRuta()
+        {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 txtDirectorio.Text = openFileDialog1.FileName;
+
+                LeerArchivoTextoPonerEnFuente();
             }
         }
 
-        private void btnCargar_Click(object sender, EventArgs e)
+        private void LeerArchivoTextoPonerEnFuente()
         {
-            txtDestino.Text = string.Empty;
-            if (rbConsola.Checked)
+            try
             {
-                DarFromatoFuenteADestino();
+                TextReader leer = new StreamReader(openFileDialog1.FileName);
+                txtFuente.Text = leer.ReadToEnd();
+                leer.Close();
             }
-            else if (rbCargarArchivo.Checked)
+            catch (Exception)
             {
-                if (txtDirectorio.Text != string.Empty)
-                {
-                    try
-                    {
-                        TextReader leer = new StreamReader(openFileDialog1.FileName);
-                        txtFunte.Text = leer.ReadToEnd();
-                        leer.Close();
-                        DarFromatoFuenteADestino();
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Archivo Inexistente en la ruta especificada");
-                    }
-                }
-            }
-            txtDestino.Enabled = true;
-        }
-
-        private void DarFromatoFuenteADestino()
-        {
-            cadenas.Add(txtFunte.Text);
-            for (int i = 0; i < txtFunte.Lines.Count(); i++)
-            {
-                txtDestino.Text += $"Linea{i+1}-> {txtFunte.Lines[i]} {Environment.NewLine}";
+                MessageBox.Show("Archivo Inexistente en la ruta especificada");
             }
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            txtFunte.Text = string.Empty;
+            txtFuente.Text = string.Empty;
+            txtDestino.Text = string.Empty;
+        }
+
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+            txtDestino.Text = string.Empty;
+
+            if (txtFuente.Text != string.Empty)
+            {
+                PasarDeFuenteADestino();
+            }
+            else
+                MessageBox.Show("No es posible analizar un texto sin contenido");
+        }
+
+        private void PasarDeFuenteADestino()
+        {
+            idEjecucion++;
+
+            if (rbConsola.Checked)
+            {
+                EnumerarLinea();
+                AlmacenarLineasEnLista(idEjecucion);
+            }
+            else if (rbCargarArchivo.Checked)
+            {
+                EnumerarLinea();
+                AlmacenarLineasEnLista(idEjecucion);
+            }
+
+            txtFuente.Text = string.Empty;
+            txtDestino.Enabled = true;
+            lstEjecuciones.Items.Add($"Ejecución: {idEjecucion}");
+        }
+
+        private void EnumerarLinea()
+        {
+            for (int i = 0; i < txtFuente.Lines.Count(); i++)
+            {
+                txtDestino.Text += $"Linea{i + 1}-> {txtFuente.Lines[i]} {Environment.NewLine}";
+            }
+        }
+
+        private void AlmacenarLineasEnLista(int idEjecucion)
+        {
+            for (int i = 0; i < txtFuente.Lines.Count(); i++)
+            {
+                int numeroCaracteres = txtFuente.Lines[i].Length;
+                string contenido = txtFuente.Lines[i];
+
+                lineas.Add(new Linea(idEjecucion, numeroCaracteres, contenido));
+            }
+        }
+
+        private void lstEjecuciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            txtFuente.Text = string.Empty;
+            txtDestino.Text = string.Empty;
+
+            CargarEjecuionSeleccionada();
+        }
+
+        private void CargarEjecuionSeleccionada()
+        {
+
+            var lineasEnEjecucion = lineas.Where(l => (l.IdEjecucion - 1) == lstEjecuciones.SelectedIndex);
+
+            foreach (Linea linea in lineasEnEjecucion)
+            {
+                txtFuente.Text += linea.Contenido + Environment.NewLine;
+            }
         }
 
     }

@@ -1,4 +1,4 @@
-﻿namespace Prueba02
+﻿namespace Compilador
 {
     partial class Form1
     {
@@ -34,10 +34,12 @@
             this.gboxOpciones = new System.Windows.Forms.GroupBox();
             this.rbCargarArchivo = new System.Windows.Forms.RadioButton();
             this.rbConsola = new System.Windows.Forms.RadioButton();
-            this.txtFunte = new System.Windows.Forms.TextBox();
+            this.txtFuente = new System.Windows.Forms.TextBox();
             this.txtDestino = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.lstEjecuciones = new System.Windows.Forms.ListBox();
+            this.lblEjecuciones = new System.Windows.Forms.Label();
             this.gboxOpciones.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,13 +108,13 @@
             this.rbConsola.UseVisualStyleBackColor = true;
             this.rbConsola.CheckedChanged += new System.EventHandler(this.rbConsola_CheckedChanged);
             // 
-            // txtFunte
+            // txtFuente
             // 
-            this.txtFunte.Location = new System.Drawing.Point(43, 131);
-            this.txtFunte.Multiline = true;
-            this.txtFunte.Name = "txtFunte";
-            this.txtFunte.Size = new System.Drawing.Size(475, 163);
-            this.txtFunte.TabIndex = 8;
+            this.txtFuente.Location = new System.Drawing.Point(43, 131);
+            this.txtFuente.Multiline = true;
+            this.txtFuente.Name = "txtFuente";
+            this.txtFuente.Size = new System.Drawing.Size(475, 163);
+            this.txtFuente.TabIndex = 8;
             // 
             // txtDestino
             // 
@@ -131,22 +133,42 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(524, 271);
+            this.btnLimpiar.Location = new System.Drawing.Point(43, 510);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(98, 23);
             this.btnLimpiar.TabIndex = 10;
-            this.btnLimpiar.Text = "Limpiar Consola";
+            this.btnLimpiar.Text = "Limpiar Consolas";
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
+            // lstEjecuciones
+            // 
+            this.lstEjecuciones.FormattingEnabled = true;
+            this.lstEjecuciones.Location = new System.Drawing.Point(543, 160);
+            this.lstEjecuciones.Name = "lstEjecuciones";
+            this.lstEjecuciones.Size = new System.Drawing.Size(120, 134);
+            this.lstEjecuciones.TabIndex = 12;
+            this.lstEjecuciones.SelectedIndexChanged += new System.EventHandler(this.lstEjecuciones_SelectedIndexChanged);
+            // 
+            // lblEjecuciones
+            // 
+            this.lblEjecuciones.AutoSize = true;
+            this.lblEjecuciones.Location = new System.Drawing.Point(543, 131);
+            this.lblEjecuciones.Name = "lblEjecuciones";
+            this.lblEjecuciones.Size = new System.Drawing.Size(120, 13);
+            this.lblEjecuciones.TabIndex = 13;
+            this.lblEjecuciones.Text = "Ejecuciones Realizadas";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(675, 516);
+            this.ClientSize = new System.Drawing.Size(708, 564);
+            this.Controls.Add(this.lblEjecuciones);
+            this.Controls.Add(this.lstEjecuciones);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.txtDestino);
-            this.Controls.Add(this.txtFunte);
+            this.Controls.Add(this.txtFuente);
             this.Controls.Add(this.gboxOpciones);
             this.Controls.Add(this.btnDirectorio);
             this.Controls.Add(this.txtDirectorio);
@@ -167,10 +189,12 @@
         private System.Windows.Forms.GroupBox gboxOpciones;
         private System.Windows.Forms.RadioButton rbCargarArchivo;
         private System.Windows.Forms.RadioButton rbConsola;
-        private System.Windows.Forms.TextBox txtFunte;
+        private System.Windows.Forms.TextBox txtFuente;
         private System.Windows.Forms.TextBox txtDestino;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.ListBox lstEjecuciones;
+        private System.Windows.Forms.Label lblEjecuciones;
     }
 }
 
