@@ -24,23 +24,22 @@ namespace Compilador
 
         private void rbConsola_CheckedChanged(object sender, EventArgs e)
         {
-            if (!rbConsola.Checked)
-                CambiarEstadoControlesBasadoEnConsola(esConsola: true);
-
+            if (rbConsola.Checked)
+                ActivarControlesBasadoEnCargarArchivos(esCargarArchivo: false);
         }
 
         private void rbCargarArchivo_CheckedChanged(object sender, EventArgs e)
         {
-            if (!rbCargarArchivo.Checked)
-                CambiarEstadoControlesBasadoEnConsola(esConsola: false);
+            if (rbCargarArchivo.Checked)
+                ActivarControlesBasadoEnCargarArchivos(esCargarArchivo: true);
         }
 
-        private void CambiarEstadoControlesBasadoEnConsola(bool esConsola)
+        private void ActivarControlesBasadoEnCargarArchivos(bool esCargarArchivo)
         {
-            btnDirectorio.Enabled = esConsola;
-            txtDirectorio.Enabled = esConsola;
-            txtFuente.ReadOnly = esConsola;
-            txtFuente.Text = esConsola ? string.Empty : txtFuente.Text;
+            btnDirectorio.Enabled = esCargarArchivo;
+            txtDirectorio.Enabled = esCargarArchivo;
+            txtFuente.ReadOnly = esCargarArchivo;
+            txtFuente.Text = esCargarArchivo ? string.Empty : txtFuente.Text;
             txtDestino.Text = string.Empty;
         }
 
@@ -69,7 +68,8 @@ namespace Compilador
             }
             catch (Exception)
             {
-                MessageBox.Show("Archivo Inexistente en la ruta especificada");
+                MessageBox.Show("Archivo Inexistente en la ruta especificada",
+                    "Archivo no encontrado", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
@@ -88,7 +88,8 @@ namespace Compilador
                 PasarDeFuenteADestino();
             }
             else
-                MessageBox.Show("No es posible analizar un texto sin contenido");
+                MessageBox.Show("Por favor ingresa texto en la consola para poder llevar a cabo el análisis",
+                    "Consola vacía", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void PasarDeFuenteADestino()
@@ -98,12 +99,12 @@ namespace Compilador
             if (rbConsola.Checked)
             {
                 EnumerarLinea();
-                AlmacenarLineasEnLista(idEjecucion);
+                AlmacenarLineasEnLista();
             }
             else if (rbCargarArchivo.Checked)
             {
                 EnumerarLinea();
-                AlmacenarLineasEnLista(idEjecucion);
+                AlmacenarLineasEnLista();
             }
 
             txtFuente.Text = string.Empty;
@@ -119,7 +120,7 @@ namespace Compilador
             }
         }
 
-        private void AlmacenarLineasEnLista(int idEjecucion)
+        private void AlmacenarLineasEnLista()
         {
             for (int i = 0; i < txtFuente.Lines.Count(); i++)
             {
@@ -149,6 +150,5 @@ namespace Compilador
                 txtFuente.Text += linea.Contenido + Environment.NewLine;
             }
         }
-
     }
 }

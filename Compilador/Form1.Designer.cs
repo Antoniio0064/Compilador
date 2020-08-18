@@ -45,12 +45,15 @@
             // 
             // btnCargar
             // 
-            this.btnCargar.Location = new System.Drawing.Point(238, 300);
+            this.btnCargar.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnCargar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCargar.ForeColor = System.Drawing.Color.Black;
+            this.btnCargar.Location = new System.Drawing.Point(237, 300);
             this.btnCargar.Name = "btnCargar";
-            this.btnCargar.Size = new System.Drawing.Size(75, 23);
+            this.btnCargar.Size = new System.Drawing.Size(75, 35);
             this.btnCargar.TabIndex = 2;
             this.btnCargar.Text = "Cargar";
-            this.btnCargar.UseVisualStyleBackColor = true;
+            this.btnCargar.UseVisualStyleBackColor = false;
             this.btnCargar.Click += new System.EventHandler(this.btnCargar_Click);
             // 
             // txtDirectorio
@@ -82,7 +85,7 @@
             this.gboxOpciones.Size = new System.Drawing.Size(286, 63);
             this.gboxOpciones.TabIndex = 7;
             this.gboxOpciones.TabStop = false;
-            this.gboxOpciones.Text = "Opcion";
+            this.gboxOpciones.Text = "Opción";
             // 
             // rbCargarArchivo
             // 
@@ -110,15 +113,20 @@
             // 
             // txtFuente
             // 
+            this.txtFuente.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.txtFuente.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFuente.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtFuente.Location = new System.Drawing.Point(43, 131);
             this.txtFuente.Multiline = true;
             this.txtFuente.Name = "txtFuente";
             this.txtFuente.Size = new System.Drawing.Size(475, 163);
-            this.txtFuente.TabIndex = 8;
+            this.txtFuente.TabIndex = 0;
             // 
             // txtDestino
             // 
+            this.txtDestino.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.txtDestino.Enabled = false;
+            this.txtDestino.Font = new System.Drawing.Font("Courier New", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDestino.Location = new System.Drawing.Point(43, 341);
             this.txtDestino.Multiline = true;
             this.txtDestino.Name = "txtDestino";
@@ -133,16 +141,19 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(43, 510);
+            this.btnLimpiar.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLimpiar.Location = new System.Drawing.Point(524, 469);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(98, 23);
+            this.btnLimpiar.Size = new System.Drawing.Size(139, 35);
             this.btnLimpiar.TabIndex = 10;
             this.btnLimpiar.Text = "Limpiar Consolas";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // lstEjecuciones
             // 
+            this.lstEjecuciones.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.lstEjecuciones.FormattingEnabled = true;
             this.lstEjecuciones.Location = new System.Drawing.Point(543, 160);
             this.lstEjecuciones.Name = "lstEjecuciones";
@@ -153,9 +164,10 @@
             // lblEjecuciones
             // 
             this.lblEjecuciones.AutoSize = true;
-            this.lblEjecuciones.Location = new System.Drawing.Point(543, 131);
+            this.lblEjecuciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEjecuciones.Location = new System.Drawing.Point(524, 131);
             this.lblEjecuciones.Name = "lblEjecuciones";
-            this.lblEjecuciones.Size = new System.Drawing.Size(120, 13);
+            this.lblEjecuciones.Size = new System.Drawing.Size(154, 16);
             this.lblEjecuciones.TabIndex = 13;
             this.lblEjecuciones.Text = "Ejecuciones Realizadas";
             // 
@@ -163,7 +175,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(708, 564);
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ClientSize = new System.Drawing.Size(708, 524);
             this.Controls.Add(this.lblEjecuciones);
             this.Controls.Add(this.lstEjecuciones);
             this.Controls.Add(this.btnLimpiar);
