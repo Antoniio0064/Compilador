@@ -98,12 +98,12 @@ namespace Compilador
 
             if (rbConsola.Checked)
             {
-                EnumerarLinea();
+                EscribirLinea();
                 AlmacenarLineasEnLista();
             }
             else if (rbCargarArchivo.Checked)
             {
-                EnumerarLinea();
+                EscribirLinea();
                 AlmacenarLineasEnLista();
             }
 
@@ -112,11 +112,12 @@ namespace Compilador
             lstEjecuciones.Items.Add($"Ejecución: {idEjecucion}");
         }
 
-        private void EnumerarLinea()
+        private void EscribirLinea()
         {
             for (int i = 0; i < txtFuente.Lines.Count(); i++)
             {
-                txtDestino.Text += $"Linea{i + 1}-> {txtFuente.Lines[i]} {Environment.NewLine}";
+                string lineaSinEspacios = txtFuente.Lines[i].Trim();
+                txtDestino.Text += $"Linea{i + 1}-> {lineaSinEspacios} {Environment.NewLine}";
             }
         }
 
@@ -144,10 +145,11 @@ namespace Compilador
         {
 
             var lineasEnEjecucion = lineas.Where(l => (l.IdEjecucion - 1) == lstEjecuciones.SelectedIndex);
-
+         
             foreach (Linea linea in lineasEnEjecucion)
             {
-                txtFuente.Text += linea.Contenido + Environment.NewLine;
+                string lineaSinEspacios = linea.Contenido.Trim();
+                txtFuente.Text += lineaSinEspacios + Environment.NewLine;
             }
         }
     }
