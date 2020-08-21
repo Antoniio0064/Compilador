@@ -119,6 +119,7 @@
             this.txtFuente.Location = new System.Drawing.Point(43, 131);
             this.txtFuente.Multiline = true;
             this.txtFuente.Name = "txtFuente";
+            this.txtFuente.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtFuente.Size = new System.Drawing.Size(475, 163);
             this.txtFuente.TabIndex = 0;
             // 
@@ -131,6 +132,7 @@
             this.txtDestino.Multiline = true;
             this.txtDestino.Name = "txtDestino";
             this.txtDestino.ReadOnly = true;
+            this.txtDestino.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtDestino.Size = new System.Drawing.Size(475, 163);
             this.txtDestino.TabIndex = 9;
             // 

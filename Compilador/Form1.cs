@@ -14,8 +14,15 @@ namespace Compilador
 {
     public partial class Form1 : Form
     {
-        List<Linea> lineas = new List<Linea>();
-        int idEjecucion = 0;
+        private List<Linea> lineas = new List<Linea>();
+        private int idEjecucion = 0;
+
+        private const string ARCHIVO_NO_ENCONTRADO_INFORMACION = "Archivo Inexistente en la ruta especificada";
+        private const string ARCHIVO_NO_ENCONTRADO_TITULO = "Archivo no encontrado";
+
+        private const string CONSOLA_VACIA_INFORMACION = "Por favor ingresa texto en la consola para poder llevar a cabo el análisis";
+        private const string CONSOLA_VACIA_TITULO = "Consola vacía";
+
 
         public Form1()
         {
@@ -68,8 +75,8 @@ namespace Compilador
             }
             catch (Exception)
             {
-                MessageBox.Show("Archivo Inexistente en la ruta especificada",
-                    "Archivo no encontrado", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(ARCHIVO_NO_ENCONTRADO_INFORMACION,
+                    ARCHIVO_NO_ENCONTRADO_TITULO, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -88,24 +95,15 @@ namespace Compilador
                 PasarDeFuenteADestino();
             }
             else
-                MessageBox.Show("Por favor ingresa texto en la consola para poder llevar a cabo el análisis",
-                    "Consola vacía", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(CONSOLA_VACIA_INFORMACION, CONSOLA_VACIA_TITULO, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void PasarDeFuenteADestino()
         {
             idEjecucion++;
 
-            if (rbConsola.Checked)
-            {
-                EscribirLinea();
-                AlmacenarLineasEnLista();
-            }
-            else if (rbCargarArchivo.Checked)
-            {
-                EscribirLinea();
-                AlmacenarLineasEnLista();
-            }
+            EscribirLinea();
+            AlmacenarLineasEnLista();
 
             txtFuente.Text = string.Empty;
             txtDestino.Enabled = true;
@@ -145,7 +143,7 @@ namespace Compilador
         {
 
             var lineasEnEjecucion = lineas.Where(l => (l.IdEjecucion - 1) == lstEjecuciones.SelectedIndex);
-         
+
             foreach (Linea linea in lineasEnEjecucion)
             {
                 string lineaSinEspacios = linea.Contenido.Trim();
