@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace Compilador.Transversal
 {
-    class Linea
+    public class Linea
     {
         public int IdEjecucion { get; private set; }
         public int NumeroCaracteres { get; private set; }
         public string Contenido { get; private set; }
+        public int NumeroLinea { get; private set; }
 
-        public Linea(int idEjecucion, int numeroCaracteres, string contenido)
+        public Linea(int idEjecucion, int numeroCaracteres, string contenido, int numeroLinea)
         {
             IdEjecucion = idEjecucion;
             NumeroCaracteres = numeroCaracteres;
             Contenido = contenido;
+            NumeroLinea = numeroLinea;
         }
     }
 }

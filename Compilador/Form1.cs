@@ -14,12 +14,11 @@ namespace Compilador
 {
     public partial class Form1 : Form
     {
-        private List<Linea> lineas = new List<Linea>();
+        public static List<Linea> lineas = new List<Linea>();
         private int idEjecucion = 0;
 
         private const string ARCHIVO_NO_ENCONTRADO_INFORMACION = "Archivo Inexistente en la ruta especificada";
         private const string ARCHIVO_NO_ENCONTRADO_TITULO = "Archivo no encontrado";
-
         private const string CONSOLA_VACIA_INFORMACION = "Por favor ingresa texto en la consola para poder llevar a cabo el análisis";
         private const string CONSOLA_VACIA_TITULO = "Consola vacía";
 
@@ -82,18 +81,20 @@ namespace Compilador
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            LimpiarConsolas();
+        }
+
+        private void LimpiarConsolas()
+        {
             txtFuente.Text = string.Empty;
             txtDestino.Text = string.Empty;
         }
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
-            txtDestino.Text = string.Empty;
-
             if (txtFuente.Text != string.Empty)
-            {
                 PasarDeFuenteADestino();
-            }
+            
             else
                 MessageBox.Show(CONSOLA_VACIA_INFORMACION, CONSOLA_VACIA_TITULO, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
@@ -102,47 +103,53 @@ namespace Compilador
         {
             idEjecucion++;
 
-            EscribirLinea();
-            AlmacenarLineasEnLista();
+            CargarEnCache();
 
-            txtFuente.Text = string.Empty;
+            LimpiarConsolas();
+            
+            EscribirLineaDesdeCache();
+
             txtDestino.Enabled = true;
             lstEjecuciones.Items.Add($"Ejecución: {idEjecucion}");
         }
 
-        private void EscribirLinea()
-        {
-            for (int i = 0; i < txtFuente.Lines.Count(); i++)
-            {
-                string lineaSinEspacios = txtFuente.Lines[i].Trim();
-                txtDestino.Text += $"Linea{i + 1}-> {lineaSinEspacios} {Environment.NewLine}";
-            }
-        }
-
-        private void AlmacenarLineasEnLista()
+        private void CargarEnCache()
         {
             for (int i = 0; i < txtFuente.Lines.Count(); i++)
             {
                 int numeroCaracteres = txtFuente.Lines[i].Length;
                 string contenido = txtFuente.Lines[i];
+                int numeroLinea = i + 1;
 
-                lineas.Add(new Linea(idEjecucion, numeroCaracteres, contenido));
+                lineas.Add(new Linea(idEjecucion, numeroCaracteres, contenido, numeroLinea));
             }
+        }
+
+        private void EscribirLineaDesdeCache()
+        {
+            var lineasEjecucionActual = lineas.Where(l => (l.IdEjecucion == idEjecucion));
+
+            foreach (Linea linea in lineasEjecucionActual)
+            {
+                string lineaSinEspacios = linea.Contenido.Trim();
+
+                txtDestino.Text += $"{linea.NumeroLinea}->{lineaSinEspacios} {Environment.NewLine}";
+            }
+
         }
 
         private void lstEjecuciones_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            txtFuente.Text = string.Empty;
-            txtDestino.Text = string.Empty;
+            LimpiarConsolas();
 
-            CargarEjecuionSeleccionada();
+            MostrarEnConsolaEjecuionSeleccionada();
         }
 
-        private void CargarEjecuionSeleccionada()
+        private void MostrarEnConsolaEjecuionSeleccionada()
         {
 
-            var lineasEnEjecucion = lineas.Where(l => (l.IdEjecucion - 1) == lstEjecuciones.SelectedIndex);
+            var lineasEnEjecucion = lineas.Where(linea => (linea.IdEjecucion - 1) == lstEjecuciones.SelectedIndex);
 
             foreach (Linea linea in lineasEnEjecucion)
             {

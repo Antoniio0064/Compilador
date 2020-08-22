@@ -188,6 +188,7 @@
             this.Controls.Add(this.btnDirectorio);
             this.Controls.Add(this.txtDirectorio);
             this.Controls.Add(this.btnCargar);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Compilador";
             this.gboxOpciones.ResumeLayout(false);
