@@ -11,7 +11,6 @@ namespace Compilador
     public partial class Form1 : Form
     {
         public static List<Linea> lineas = new List<Linea>();
-        private int _idEjecucion = 0;
 
         private const string ARCHIVO_NO_ENCONTRADO_INFORMACION = "Archivo Inexistente en la ruta especificada";
         private const string ARCHIVO_NO_ENCONTRADO_TITULO = "Archivo no encontrado";
@@ -95,7 +94,6 @@ namespace Compilador
 
         private void PasarDeFuenteADestino()
         {
-            _idEjecucion++;
 
             CargarEnCache();
 
@@ -104,7 +102,6 @@ namespace Compilador
             EscribirLineaDesdeCache();
 
             txtDestino.Enabled = true;
-            lstEjecuciones.Items.Add($"Ejecución: {_idEjecucion}");
         }
 
         private void CargarEnCache()
@@ -113,15 +110,14 @@ namespace Compilador
             {
                 string contenido = txtFuente.Lines[i];
                 int numeroLinea = i + 1;
-                lineas.Add(new Linea(_idEjecucion, contenido, numeroLinea));
+                lineas.Add(new Linea(contenido, numeroLinea));
             }
         }
 
         private void EscribirLineaDesdeCache()
         {
-            var lineasEjecucionActual = lineas.Where(l => (l.IdEjecucion == _idEjecucion));
 
-            foreach (Linea linea in lineasEjecucionActual)
+            foreach (Linea linea in lineas)
             {
                 string lineaSinEspacios = linea.Contenido.Trim();
 
@@ -138,13 +134,17 @@ namespace Compilador
 
         private void MostrarEnConsolaEjecuionSeleccionada()
         {
-            var lineasEnEjecucion = lineas.Where(linea => (linea.IdEjecucion - 1) == lstEjecuciones.SelectedIndex);
 
-            foreach (Linea linea in lineasEnEjecucion)
+            foreach (Linea linea in lineas)
             {
                 string lineaSinEspacios = linea.Contenido.Trim();
                 txtFuente.Text += lineaSinEspacios + Environment.NewLine;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
