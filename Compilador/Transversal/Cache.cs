@@ -21,7 +21,7 @@ namespace Compilador.Transversal
 
             if(lineas != null && lineas.Count > 0)
             {
-                Cache.Lineas = lineas;
+                Lineas = lineas;
             }
         }
 

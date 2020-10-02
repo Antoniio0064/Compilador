@@ -10,7 +10,6 @@ namespace Compilador
 {
     public partial class Form1 : Form
     {
-        public static List<Linea> lineas = new List<Linea>();
 
         private const string ARCHIVO_NO_ENCONTRADO_INFORMACION = "Archivo Inexistente en la ruta especificada";
         private const string ARCHIVO_NO_ENCONTRADO_TITULO = "Archivo no encontrado";
@@ -106,45 +105,26 @@ namespace Compilador
 
         private void CargarEnCache()
         {
+            List<Linea> lineas = new List<Linea>();
+            
             for (int i = 0; i < txtFuente.Lines.Count(); i++)
             {
                 string contenido = txtFuente.Lines[i];
                 int numeroLinea = i + 1;
-                lineas.Add(new Linea(contenido, numeroLinea));
+                lineas.Add(Linea.Crear(numeroLinea, contenido));
             }
+
+            Cache.Poblar(lineas);
         }
 
         private void EscribirLineaDesdeCache()
         {
+            List<Linea> lineasCache = Cache.ObtenerLineas();
 
-            foreach (Linea linea in lineas)
+            foreach (Linea linea in lineasCache)
             {
-                string lineaSinEspacios = linea.Contenido.Trim();
-
-                txtDestino.Text += $"{linea.NumeroLinea}->{lineaSinEspacios} {Environment.NewLine}";
+                txtDestino.Text += $"{linea.Numero}->{linea.Contenido} {Environment.NewLine}";
             }
-        }
-
-        private void lstEjecuciones_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LimpiarConsolas();
-
-            MostrarEnConsolaEjecuionSeleccionada();
-        }
-
-        private void MostrarEnConsolaEjecuionSeleccionada()
-        {
-
-            foreach (Linea linea in lineas)
-            {
-                string lineaSinEspacios = linea.Contenido.Trim();
-                txtFuente.Text += lineaSinEspacios + Environment.NewLine;
-            }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
