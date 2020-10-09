@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Compilador.TablaSimbolos
 {
     public class TablaSimbolos
     {
         private static Dictionary<string, List<ComponenteLexico>> Simbolos = new Dictionary<string, List<ComponenteLexico>>();
-        
+
         public static void Agregar(ComponenteLexico componente)
         {
             if (componente != null && TipoComponente.SIMBOLO.Equals(componente.Tipo))

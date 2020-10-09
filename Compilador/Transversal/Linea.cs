@@ -14,13 +14,12 @@
         public string Contenido
         {
             get { return contenido; }
-            set 
+            set
             {
                 if (value == null)
                     contenido = "";
                 else
                     contenido = value;
-
             }
         }
 

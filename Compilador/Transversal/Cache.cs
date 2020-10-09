@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Compilador.Transversal
 {
@@ -19,7 +15,7 @@ namespace Compilador.Transversal
         {
             Limpiar();
 
-            if(lineas != null && lineas.Count > 0)
+            if (lineas != null && lineas.Count > 0)
             {
                 Lineas = lineas;
             }
@@ -27,7 +23,7 @@ namespace Compilador.Transversal
 
         public static void Agregar(string contenido)
         {
-            if(contenido != null)
+            if (contenido != null)
             {
                 int numeroLinea = Lineas.Count + 1;
 

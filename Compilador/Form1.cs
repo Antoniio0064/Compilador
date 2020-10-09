@@ -1,7 +1,6 @@
 ﻿using Compilador.Transversal;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,7 +9,6 @@ namespace Compilador
 {
     public partial class Form1 : Form
     {
-
         private const string ARCHIVO_NO_ENCONTRADO_INFORMACION = "Archivo Inexistente en la ruta especificada";
         private const string ARCHIVO_NO_ENCONTRADO_TITULO = "Archivo no encontrado";
         private const string CONSOLA_VACIA_INFORMACION = "Por favor ingresa texto en la consola para poder llevar a cabo el análisis";
@@ -93,7 +91,6 @@ namespace Compilador
 
         private void PasarDeFuenteADestino()
         {
-
             CargarEnCache();
 
             LimpiarConsolas();
@@ -106,7 +103,7 @@ namespace Compilador
         private void CargarEnCache()
         {
             List<Linea> lineas = new List<Linea>();
-            
+
             for (int i = 0; i < txtFuente.Lines.Count(); i++)
             {
                 string contenido = txtFuente.Lines[i];

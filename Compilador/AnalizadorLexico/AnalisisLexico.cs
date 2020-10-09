@@ -1,10 +1,5 @@
 ﻿using Compilador.TablaSimbolos;
 using Compilador.Transversal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Compilador.AnalizadorLexico
 {
@@ -52,7 +47,7 @@ namespace Compilador.AnalizadorLexico
             {
                 caracterActual = lineaActual.Contenido;
             }
-            else if(puntero > lineaActual.Contenido.Length)
+            else if (puntero > lineaActual.Contenido.Length)
             {
                 caracterActual = "@FL@";
             }
@@ -80,19 +75,17 @@ namespace Compilador.AnalizadorLexico
 
             while (continuarAnalisis)
             {
-                if(estadoActual == 0)
+                if (estadoActual == 0)
                 {
                     LeerSiguienteCaracter();
                     DevorarEspacios();
 
                     // Iniciar Analisis
-                    
                 }
             }
 
             return null;
             //return componente;
         }
-
     }
 }
