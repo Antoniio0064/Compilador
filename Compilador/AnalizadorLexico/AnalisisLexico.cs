@@ -68,6 +68,7 @@ namespace Compilador.AnalizadorLexico
         }
 
         #region Comparaciones
+
         private bool CaracterActualEsLetra()
         {
             return char.IsLetter(caracterActual, 0);
@@ -83,49 +84,9 @@ namespace Compilador.AnalizadorLexico
             return char.IsLetterOrDigit(caracterActual, 0);
         }
 
-        private bool CaracterActualEsSignoPesos()
-        {
-            return "$".Equals(caracterActual);
-        }
-
         private bool CaracterActualEsGuionBajo()
         {
             return "_".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsSuma()
-        {
-            return "+".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsResta()
-        {
-            return "-".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsMultiplicacion()
-        {
-            return "*".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsDivision()
-        {
-            return "/".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsModulo()
-        {
-            return "%".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsParentesisAbre()
-        {
-            return "(".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsParentesisCierra()
-        {
-            return ")".Equals(caracterActual);
         }
 
         private bool CaracterActualEsIgualQue()
@@ -141,11 +102,6 @@ namespace Compilador.AnalizadorLexico
         private bool CaracterActualEsMenorQue()
         {
             return "<".Equals(caracterActual);
-        }
-
-        private bool CaracterActualEsDosPuntos()
-        {
-            return ":".Equals(caracterActual);
         }
 
         private bool CaracterActualEsDiferteQue()
@@ -247,11 +203,18 @@ namespace Compilador.AnalizadorLexico
         {
             return ("y".Equals(caracterActual) || "Y".Equals(caracterActual));
         }
+
         private bool CaracterActualEsComilla()
         {
             return "'".Equals(caracterActual);
-        } 
-        #endregion
+        }
+
+        private bool CaracterActualEsPunto()
+        {
+            return ".".Equals(caracterActual);
+        }
+
+        #endregion Comparaciones
 
         private void Concatenar()
         {
@@ -260,7 +223,7 @@ namespace Compilador.AnalizadorLexico
 
         public ComponenteLexico FormarComponente()
         {
-            ComponenteLexico componente;
+            ComponenteLexico componente = null;
             lexema = "";
             int estadoActual = 0;
             bool continuarAnalisis = true;
@@ -362,306 +325,827 @@ namespace Compilador.AnalizadorLexico
                         estadoActual = 73;
                     }
                 }
-                else if(estadoActual == 1)
+                else if (estadoActual == 1)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsE())
+                    {
+                        estadoActual = 2;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 7;
+                    }
                 }
                 else if (estadoActual == 2)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsL())
+                    {
+                        estadoActual = 3;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 7;
+                    }
                 }
                 else if (estadoActual == 3)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsE())
+                    {
+                        estadoActual = 4;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 7;
+                    }
                 }
                 else if (estadoActual == 4)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsC())
+                    {
+                        estadoActual = 5;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 7;
+                    }
                 }
                 else if (estadoActual == 5)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsT())
+                    {
+                        estadoActual = 6;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 7;
+                    }
                 }
                 else if (estadoActual == 6)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.SELECT, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 7)
                 {
-
                 }
                 else if (estadoActual == 8)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsA())
+                    {
+                        estadoActual = 9;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 17;
+                    }
                 }
                 else if (estadoActual == 9)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsM())
+                    {
+                        estadoActual = 10;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 17;
+                    }
                 }
                 else if (estadoActual == 10)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsGuionBajo())
+                    {
+                        estadoActual = 11;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 17;
+                    }
                 }
                 else if (estadoActual == 11)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsLetraODigito() || CaracterActualEsGuionBajo())
+                    {
+                        estadoActual = 11;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 12;
+                    }
                 }
                 else if (estadoActual == 12)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.CAMPO, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 13)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsR())
+                    {
+                        estadoActual = 14;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 18;
+                    }
                 }
                 else if (estadoActual == 14)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsO())
+                    {
+                        estadoActual = 15;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 18;
+                    }
                 }
                 else if (estadoActual == 15)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsM())
+                    {
+                        estadoActual = 16;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 18;
+                    }
                 }
                 else if (estadoActual == 16)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.FROM, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 17)
                 {
-
                 }
                 else if (estadoActual == 18)
                 {
-
                 }
                 else if (estadoActual == 19)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsA())
+                    {
+                        estadoActual = 20;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 24;
+                    }
                 }
                 else if (estadoActual == 20)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsB())
+                    {
+                        estadoActual = 21;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 24;
+                    }
                 }
                 else if (estadoActual == 21)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsGuionBajo())
+                    {
+                        estadoActual = 22;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 24;
+                    }
                 }
                 else if (estadoActual == 22)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsLetraODigito() || CaracterActualEsGuionBajo())
+                    {
+                        estadoActual = 22;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 24;
+                    }
                 }
                 else if (estadoActual == 23)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.TABLA, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 24)
                 {
-
                 }
                 else if (estadoActual == 25)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsH())
+                    {
+                        estadoActual = 26;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 30;
+                    }
                 }
                 else if (estadoActual == 26)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsE())
+                    {
+                        estadoActual = 27;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 30;
+                    }
                 }
                 else if (estadoActual == 27)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsR())
+                    {
+                        estadoActual = 28;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 30;
+                    }
                 }
                 else if (estadoActual == 28)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsE())
+                    {
+                        estadoActual = 29;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 30;
+                    }
                 }
                 else if (estadoActual == 29)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.WHERE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 30)
                 {
-
                 }
                 else if (estadoActual == 31)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsComilla())
+                    {
+                        estadoActual = 32;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 31;
+                        Concatenar();
+                    }
                 }
                 else if (estadoActual == 32)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.LITERAL, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 33)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsDigito())
+                    {
+                        estadoActual = 33;
+                        Concatenar();
+                    }
+                    else if (CaracterActualEsPunto())
+                    {
+                        estadoActual = 35;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 34;
+                    }
                 }
                 else if (estadoActual == 34)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.NUMERO_ENTERO, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 35)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsDigito())
+                    {
+                        estadoActual = 36;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 37;
+                    }
                 }
                 else if (estadoActual == 36)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsDigito())
+                    {
+                        estadoActual = 36;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 38;
+                    }
                 }
                 else if (estadoActual == 37)
                 {
-
                 }
                 else if (estadoActual == 38)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.NUMERO_DECIMAL, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 39)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsIgualQue())
+                    {
+                        estadoActual = 44;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 45;
+                    }
                 }
                 else if (estadoActual == 40)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsMayorQue())
+                    {
+                        estadoActual = 41;
+                        Concatenar();
+                    }
+                    else if (CaracterActualEsIgualQue())
+                    {
+                        estadoActual = 42;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 43;
+                    }
                 }
                 else if (estadoActual == 41)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.DIFERENTE_QUE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 42)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.MENOR_IGUAL_QUE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 43)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.MENOR_QUE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 44)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.MAYOR_IGUAL_QUE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 45)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.MAYOR_QUE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 46)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.IGUAL_QUE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 47)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsIgualQue())
+                    {
+                        estadoActual = 48;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 49;
+                    }
                 }
                 else if (estadoActual == 48)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.DIFERENTE_QUE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 49)
                 {
-
                 }
                 else if (estadoActual == 50)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsN())
+                    {
+                        estadoActual = 51;
+                        Concatenar();
+                    }
+                    else if (CaracterActualEsS())
+                    {
+                        estadoActual = 53;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 55;
+                    }
                 }
                 else if (estadoActual == 51)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsD())
+                    {
+                        estadoActual = 52;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 55;
+                    }
                 }
                 else if (estadoActual == 52)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.CONECTOR_Y, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 53)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsC())
+                    {
+                        estadoActual = 54;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 55;
+                    }
                 }
                 else if (estadoActual == 54)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.ASCENDENTE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 55)
                 {
-
                 }
                 else if (estadoActual == 56)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsR())
+                    {
+                        estadoActual = 57;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 71;
+                    }
                 }
                 else if (estadoActual == 57)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsD())
+                    {
+                        estadoActual = 65;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 66;
+                    }
                 }
                 else if (estadoActual == 58)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsE())
+                    {
+                        estadoActual = 59;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 62;
+                    }
                 }
                 else if (estadoActual == 59)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsS())
+                    {
+                        estadoActual = 60;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 62;
+                    }
                 }
                 else if (estadoActual == 60)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsC())
+                    {
+                        estadoActual = 61;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 62;
+                    }
                 }
                 else if (estadoActual == 61)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.DESCENDENTE, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 62)
                 {
-
                 }
                 else if (estadoActual == 63)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.FIN_ARCHIVO, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 64)
                 {
-
+                    estadoActual = 0;
+                    CargarNuevaLinea();
                 }
                 else if (estadoActual == 65)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsE())
+                    {
+                        estadoActual = 67;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 72;
+                    }
                 }
                 else if (estadoActual == 66)
                 {
+                    DevolverPuntero();
 
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.CONECTOR_O, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
+
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 67)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsR())
+                    {
+                        estadoActual = 68;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 72;
+                    }
                 }
                 else if (estadoActual == 68)
                 {
+                    // Verificar lo del blanco
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsB())
+                    {
+                        estadoActual = 69;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 72;
+                    }
                 }
                 else if (estadoActual == 69)
                 {
+                    LeerSiguienteCaracter();
 
+                    if (CaracterActualEsY())
+                    {
+                        estadoActual = 70;
+                        Concatenar();
+                    }
+                    else
+                    {
+                        estadoActual = 72;
+                    }
                 }
                 else if (estadoActual == 70)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.ORDER_BY, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
                 else if (estadoActual == 71)
                 {
-
                 }
                 else if (estadoActual == 72)
                 {
-
                 }
                 else if (estadoActual == 73)
                 {
-
                 }
                 else if (estadoActual == 74)
                 {
+                    componente = ComponenteLexico.CrearSimbolo(Categoria.COMA, lexema, numeroLineaActual,
+                        (puntero - lexema.Length), (puntero - 1));
 
+                    TablaMaestra.Agregar(componente);
+
+                    continuarAnalisis = false;
                 }
             }
 
-            return null;
-            //return componente;
+            return componente;
         }
     }
 }
