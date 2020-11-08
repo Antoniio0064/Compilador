@@ -47,17 +47,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalizadorLexico\AnalisisLexico.cs" />
+    <Compile Include="AnalizadorSintactico\AnalisisSintactico.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManejadorErrores\Error.cs" />
+    <Compile Include="ManejadorErrores\GestorErrores.cs" />
+    <Compile Include="ManejadorErrores\TipoError.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TablaSimbolos\Categoria.cs" />
     <Compile Include="TablaSimbolos\ComponenteLexico.cs" />
+    <Compile Include="TablaSimbolos\TablaDummys.cs" />
+    <Compile Include="TablaSimbolos\TablaLiterales.cs" />
     <Compile Include="TablaSimbolos\TablaMaestra.cs" />
+    <Compile Include="TablaSimbolos\TablaPalabrasReservadas.cs" />
     <Compile Include="TablaSimbolos\TablaSimbolos.cs" />
     <Compile Include="TablaSimbolos\TipoComponente.cs" />
     <Compile Include="Transversal\Cache.cs" />

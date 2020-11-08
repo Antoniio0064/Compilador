@@ -1,28 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Compilador.TablaSimbolos
 {
     public class TablaMaestra
     {
-        public static void Agregar(ComponenteLexico componente)
+        public static ComponenteLexico Agregar(ComponenteLexico componente)
         {
             if (componente != null)
             {
+                componente = TablaPalabrasReservadas.ComprobarPalabraReservada(componente);
+                componente = TablaLiterales.ComprobarLiteral(componente);
+
                 switch (componente.Tipo)
                 {
                     case TipoComponente.SIMBOLO:
                         TablaSimbolos.Agregar(componente);
                         break;
 
+                    case TipoComponente.DUMMY:
+                        TablaDummys.Agregar(componente);
+                        break;
+
                     case TipoComponente.PALABRA_RESERVADA:
-                        // Sincronizar con tabla palabras reservadas
+                        TablaPalabrasReservadas.Agregar(componente);
+                        break;
+
+                    case TipoComponente.LITERAL:
+                        TablaLiterales.Agregar(componente);
                         break;
 
                     default:
-                        TablaSimbolos.Agregar(componente);
-                        break;
+                        throw new Exception("Tipo de componente léxico no soportado!");
                 }
             }
+            return componente;
         }
 
         public static List<ComponenteLexico> ObtenerComponentes(TipoComponente componente)
@@ -31,18 +43,27 @@ namespace Compilador.TablaSimbolos
             {
                 case TipoComponente.SIMBOLO:
                     return TablaSimbolos.ObtenerTodosSimbolos();
-                    break;
+
+                case TipoComponente.DUMMY:
+                    return TablaDummys.ObtenerTodosSimbolos();
+
+                case TipoComponente.PALABRA_RESERVADA:
+                    return TablaPalabrasReservadas.ObtenerTodosSimbolos();
+
+                case TipoComponente.LITERAL:
+                    return TablaLiterales.ObtenerTodosSimbolos();
 
                 default:
-                    return TablaSimbolos.ObtenerTodosSimbolos();
-                    break;
+                    throw new Exception("Tipo de componente léxico no soportado!");
             }
         }
 
         public static void Limpiar()
         {
             TablaSimbolos.Limpiar();
-            // Resto de tablas a futuro
+            TablaDummys.Limpiar();
+            TablaLiterales.Limpiar();
+            TablaPalabrasReservadas.Limpiar();
         }
     }
 }

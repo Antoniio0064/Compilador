@@ -23,5 +23,37 @@
         {
             return new ComponenteLexico(categoria, lexema, numeroLinea, posicionInicial, posicionFinal, TipoComponente.SIMBOLO);
         }
+
+        public static ComponenteLexico CrearDummy(Categoria categoria, string lexema, int numeroLinea, int posicionInicial, int posicionFinal)
+        {
+            return new ComponenteLexico(categoria, lexema, numeroLinea, posicionInicial, posicionFinal, TipoComponente.DUMMY);
+        }
+
+        public static ComponenteLexico CrearPalabraReservada(Categoria categoria, string lexema)
+        {
+            return new ComponenteLexico(categoria, lexema, -1, -1, -1, TipoComponente.PALABRA_RESERVADA);
+        }
+
+        public static ComponenteLexico CrearPalabraReservada(Categoria categoria, string lexema, int numeroLinea, int posicionInicial, int posicionFinal)
+        {
+            return new ComponenteLexico(categoria, lexema, numeroLinea, posicionInicial, posicionFinal, TipoComponente.PALABRA_RESERVADA);
+        }
+
+        public static ComponenteLexico CrearLiteral(Categoria categoria, string lexema, int numeroLinea, int posicionInicial, int posicionFinal)
+        {
+            return new ComponenteLexico(categoria, lexema, numeroLinea, posicionInicial, posicionFinal, TipoComponente.LITERAL);
+        }
+
+        public override string ToString()
+        {
+            string concatenador = $"Tipo Componente: {Tipo}\n" +
+                $"Categoría: {Categoria}\n" +
+                $"Lexema: {Lexema}\n" +
+                $"Número Línea: {NumeroLinea}\n" +
+                $"Posición Inicial: {PosicionInicial}\n" +
+                $"Posición Final: {PosicionFinal}\n";
+
+            return concatenador;
+        }
     }
 }
